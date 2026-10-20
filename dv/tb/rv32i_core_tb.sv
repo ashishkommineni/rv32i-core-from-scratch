@@ -74,7 +74,9 @@ module rv32i_core_tb;
     .retire_valid, .retire_pc, .retire_instr, .retire_rd, .retire_wdata
   );
 
+  /* verilator lint_off BLKSEQ */
   always #5 clk = ~clk;
+  /* verilator lint_on BLKSEQ */
 
   assign imem_req_ready = !imem_pending && !imem_rsp_valid && (bus_cycle[1:0] != 2'b00);
   assign dmem_req_ready = !dmem_pending && !dmem_rsp_valid && (bus_cycle[2:0] != 3'b000);
@@ -228,7 +230,7 @@ module rv32i_core_tb;
           endcase
         end
         OPCODE_STORE: begin
-          if (f3 <= 3'h2) cov_store[f3] <= 1'b1;
+          if (f3 <= 3'h2) cov_store[f3[1:0]] <= 1'b1;
         end
         OPCODE_LUI:      cov_control[0] <= 1'b1;
         OPCODE_AUIPC:    cov_control[1] <= 1'b1;
@@ -275,7 +277,7 @@ module rv32i_core_tb;
     end
 
     repeat (5) @(posedge clk);
-    rst_n <= 1'b1;
+    rst_n = 1'b1;
 
     while (!halted && !trap_valid && (cycles < MAX_CYCLES)) begin
       @(posedge clk);

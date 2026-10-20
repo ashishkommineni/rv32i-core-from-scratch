@@ -3,6 +3,9 @@ Reference model:
   Ran 4 tests
   OK
 
+UVM source syntax:
+  UVM_SOURCE_SYNTAX_PASS units=9 parser=pyslang-12.0.0
+
 Portable RTL smoke contract:
   TEST_PASS name=smoke cycles=<value> retired=<value> cause=3
 

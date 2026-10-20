@@ -14,6 +14,8 @@ flows.
   terminal programs with the independent interpreter.
 - `scripts/structure_check.py` checks the expected repository, RTL, DV, program,
   documentation, diagram, workflow, and license files.
+- `scripts/uvm_syntax_check.py` parses every UVM/interface/coverage/top source
+  unit with pinned `pyslang` 12.0.0. This is a syntax gate, not a UVM run.
 
 ### Simulator-dependent evidence
 

@@ -5,7 +5,6 @@ module rv32i_core_sva (
   input logic imem_req_valid,
   input logic imem_req_ready,
   input logic [31:0] imem_req_addr,
-  input logic imem_rsp_valid,
   input logic imem_rsp_ready,
   input logic dmem_req_valid,
   input logic dmem_req_ready,
@@ -13,7 +12,6 @@ module rv32i_core_sva (
   input logic [31:0] dmem_req_addr,
   input logic [31:0] dmem_req_wdata,
   input logic [3:0] dmem_req_wstrb,
-  input logic dmem_rsp_valid,
   input logic dmem_rsp_ready,
   input logic halted,
   input logic trap_valid,
@@ -81,10 +79,10 @@ endmodule
 bind rv32i_core rv32i_core_sva rv32i_core_sva_i (
   .clk, .rst_n,
   .imem_req_valid, .imem_req_ready, .imem_req_addr,
-  .imem_rsp_valid, .imem_rsp_ready,
+  .imem_rsp_ready,
   .dmem_req_valid, .dmem_req_ready, .dmem_req_write,
   .dmem_req_addr, .dmem_req_wdata, .dmem_req_wstrb,
-  .dmem_rsp_valid, .dmem_rsp_ready,
+  .dmem_rsp_ready,
   .halted, .trap_valid, .retire_valid, .retire_rd, .retire_wdata,
   .x0_value(regs[0])
 );

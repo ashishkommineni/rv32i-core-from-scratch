@@ -4,11 +4,12 @@ XRUN ?= xrun
 BUILD_DIR := build
 VLT_EXE := $(BUILD_DIR)/obj_dir/Vrv32i_core_tb
 
-.PHONY: help generate py-test structure check lint build smoke traps regress waves xcelium-smoke xcelium-traps clean
+.PHONY: help generate py-test structure check uvm-syntax lint build smoke traps regress waves xcelium-smoke xcelium-traps clean
 
 help:
 	@echo "make py-test         Run encoder/reference-model unit tests"
 	@echo "make check           Run reference and repository-structure checks"
+	@echo "make uvm-syntax      Parse every UVM source unit (syntax only)"
 	@echo "make regress         Build with Verilator and run smoke + eight trap tests"
 	@echo "make waves           Run smoke and write results/rv32i_core.vcd"
 	@echo "make xcelium-smoke   Run the full UVM smoke test in Cadence Xcelium"
@@ -25,13 +26,18 @@ structure:
 
 check: py-test structure
 
+uvm-syntax:
+	$(PYTHON) scripts/uvm_syntax_check.py
+
 lint: generate
 	mkdir -p $(BUILD_DIR)
-	$(VERILATOR) --lint-only --timing --assert -Wall -Wno-fatal -f dv/filelists/portable.f
+	$(VERILATOR) --lint-only --timing --assert -Wall -Wno-fatal \
+		-Wno-SYNCASYNCNET -f dv/filelists/portable.f
 
 build: generate
 	mkdir -p $(BUILD_DIR)
 	$(VERILATOR) --binary --timing --assert --trace -Wall -Wno-fatal \
+		-Wno-SYNCASYNCNET \
 		--Mdir $(abspath $(BUILD_DIR)/obj_dir) --top-module rv32i_core_tb \
 		-f dv/filelists/portable.f
 
@@ -50,7 +56,7 @@ traps: build
 	$(VLT_EXE) +TEST=load_access_fault +PROGRAM=dv/programs/load_access_fault.hex +EXPECTED_CAUSE=5 +DMEM_ERROR=1
 	$(VLT_EXE) +TEST=store_access_fault +PROGRAM=dv/programs/store_access_fault.hex +EXPECTED_CAUSE=7 +DMEM_ERROR=1
 
-regress: check smoke traps
+regress: check uvm-syntax smoke traps
 
 waves: build
 	mkdir -p results
