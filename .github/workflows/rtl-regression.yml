@@ -1,0 +1,35 @@
+name: RTL regression
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verilator:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Verilator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator
+          verilator --version
+      - name: Python reference tests
+        run: make check
+      - name: RTL regression
+        run: make regress
+      - name: Save generated waveform on failure
+        if: failure()
+        run: make waves || true
+      - name: Upload debug artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rv32i-debug
+          path: |
+            results/
+            dv/programs/manifest.json

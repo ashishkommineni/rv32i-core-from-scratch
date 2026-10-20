@@ -1,0 +1,17 @@
++incdir+dv/uvm
++incdir+dv/uvm/agents
++incdir+dv/uvm/env
++incdir+dv/uvm/sequences
++incdir+dv/uvm/tests
+rtl/rv32i_pkg.sv
+rtl/rv32i_core.sv
+dv/uvm/rv32i_mem_if.sv
+dv/uvm/rv32i_trace_if.sv
+dv/uvm/agents/rv32i_mem_pkg.sv
+dv/uvm/agents/rv32i_trace_pkg.sv
+dv/uvm/env/rv32i_env_pkg.sv
+dv/uvm/sequences/rv32i_sequence_pkg.sv
+dv/uvm/tests/rv32i_test_pkg.sv
+dv/sva/rv32i_core_sva.sv
+dv/coverage/rv32i_isa_coverage.sv
+dv/uvm/rv32i_uvm_top.sv

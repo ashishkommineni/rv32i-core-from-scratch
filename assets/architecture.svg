@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">RV32I multicycle core architecture</title>
+  <desc id="desc">Instruction interface feeds a control state machine, decoder, ALU and register file. Loads and stores use the data interface. Retirement and trap signals form the verification boundary.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#102a43"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7dd3fc"/></marker>
+    <style>.box{fill:#122f4b;stroke:#38bdf8;stroke-width:2;rx:14}.io{fill:#173d32;stroke:#34d399;stroke-width:2;rx:14}.term{fill:#42233c;stroke:#f472b6;stroke-width:2;rx:14}.t{fill:#e5f3ff;font:600 22px system-ui,sans-serif}.s{fill:#b9d5e8;font:16px system-ui,sans-serif}.a{fill:none;stroke:#7dd3fc;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1200" height="620" fill="url(#bg)" rx="24"/>
+  <text x="600" y="55" text-anchor="middle" class="t" font-size="30">RV32I Core from Scratch — Architectural Dataflow</text>
+  <rect class="io" x="55" y="125" width="230" height="110"/><text class="t" x="170" y="165" text-anchor="middle">Instruction port</text><text class="s" x="170" y="197" text-anchor="middle">valid/ready request</text><text class="s" x="170" y="220" text-anchor="middle">valid/ready response</text>
+  <rect class="box" x="365" y="105" width="260" height="150"/><text class="t" x="495" y="150" text-anchor="middle">Control FSM</text><text class="s" x="495" y="183" text-anchor="middle">fetch → execute</text><text class="s" x="495" y="207" text-anchor="middle">optional data access</text><text class="s" x="495" y="231" text-anchor="middle">terminal states</text>
+  <rect class="box" x="715" y="105" width="220" height="150"/><text class="t" x="825" y="150" text-anchor="middle">Decode + ALU</text><text class="s" x="825" y="183" text-anchor="middle">immediates</text><text class="s" x="825" y="207" text-anchor="middle">compare / target</text><text class="s" x="825" y="231" text-anchor="middle">lane generation</text>
+  <rect class="box" x="715" y="335" width="220" height="120"/><text class="t" x="825" y="380" text-anchor="middle">Register file</text><text class="s" x="825" y="413" text-anchor="middle">32 × 32, x0 hard zero</text>
+  <rect class="io" x="365" y="350" width="260" height="110"/><text class="t" x="495" y="390" text-anchor="middle">Data port</text><text class="s" x="495" y="422" text-anchor="middle">aligned word + strobes</text><text class="s" x="495" y="445" text-anchor="middle">independent response</text>
+  <rect class="term" x="990" y="255" width="165" height="140"/><text class="t" x="1072" y="296" text-anchor="middle">Evidence</text><text class="s" x="1072" y="329" text-anchor="middle">retirement</text><text class="s" x="1072" y="353" text-anchor="middle">trap metadata</text><text class="s" x="1072" y="377" text-anchor="middle">host halt</text>
+  <path class="a" d="M285 180 H365"/><path class="a" d="M625 180 H715"/><path class="a" d="M825 255 V335"/><path class="a" d="M715 410 H625"/><path class="a" d="M935 180 Q1015 180 1015 255"/><path class="a" d="M935 395 H990"/>
+  <text class="s" x="600" y="560" text-anchor="middle">One instruction in flight • precise terminal faults • stable handshakes under backpressure</text>
+</svg>
+
