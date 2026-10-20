@@ -1,5 +1,7 @@
 # RV32I Core from Scratch
 
+[![RTL regression](https://github.com/ashishkommineni/rv32i-core-from-scratch/actions/workflows/rtl-regression.yml/badge.svg)](https://github.com/ashishkommineni/rv32i-core-from-scratch/actions/workflows/rtl-regression.yml)
+
 A small, original SystemVerilog RV32I core built from first principles and
 verified at the instruction, bus, trap, assertion, and UVM levels. The design
 uses a deliberately transparent multicycle microarchitecture: one instruction

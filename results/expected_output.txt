@@ -3,8 +3,7 @@ Reference model:
   Ran 4 tests
   OK
 
-Portable RTL smoke (cycle and retirement counts may vary only if the memory
-latency model or program changes):
+Portable RTL smoke contract:
   TEST_PASS name=smoke cycles=<value> retired=<value> cause=3
 
 Directed terminal tests:
@@ -19,4 +18,15 @@ Directed terminal tests:
 
 An actual simulator transcript, not this contract file, is the execution
 evidence for a particular commit.
+
+Verified on GitHub Actions run 39377134405 with Verilator 5.020:
+  TEST_PASS name=smoke cycles=1666 retired=248 cause=3
+  TEST_PASS name=illegal cycles=6 retired=0 cause=2
+  TEST_PASS name=instr_misaligned cycles=6 retired=0 cause=0
+  TEST_PASS name=load_misaligned cycles=10 retired=1 cause=4
+  TEST_PASS name=store_misaligned cycles=10 retired=1 cause=6
+  TEST_PASS name=ecall cycles=6 retired=0 cause=11
+  TEST_PASS name=imem_access_fault cycles=5 retired=0 cause=1
+  TEST_PASS name=load_access_fault cycles=12 retired=0 cause=5
+  TEST_PASS name=store_access_fault cycles=12 retired=0 cause=7
 

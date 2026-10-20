@@ -17,10 +17,26 @@ flows.
 
 ### Simulator-dependent evidence
 
-The GitHub Actions workflow installs Verilator, executes `make regress`, and
-therefore provides the authoritative public portable-RTL result for its commit.
-The exact run status and logs should be read from the commit check; this document
-does not hard-code a result that could become stale.
+The GitHub Actions workflow installs Verilator and executes `make regress`.
+Public [run 39377134405](https://github.com/ashishkommineni/rv32i-core-from-scratch/actions/runs/39377134405)
+completed successfully on 2026-10-20 with Verilator 5.020. It checked the
+generated reference data, elaborated the bound assertions, ran the complete
+smoke signature, and ran all eight terminal cases.
+
+```text
+TEST_PASS name=smoke cycles=1666 retired=248 cause=3
+TEST_PASS name=illegal cycles=6 retired=0 cause=2
+TEST_PASS name=instr_misaligned cycles=6 retired=0 cause=0
+TEST_PASS name=load_misaligned cycles=10 retired=1 cause=4
+TEST_PASS name=store_misaligned cycles=10 retired=1 cause=6
+TEST_PASS name=ecall cycles=6 retired=0 cause=11
+TEST_PASS name=imem_access_fault cycles=5 retired=0 cause=1
+TEST_PASS name=load_access_fault cycles=12 retired=0 cause=5
+TEST_PASS name=store_access_fault cycles=12 retired=0 cause=7
+```
+
+The cycle and retirement counts are captured evidence for this generated image
+and memory-latency model; they are not fixed microarchitectural guarantees.
 
 The Xcelium UVM targets are source-complete but require Cadence Xcelium and UVM
 1.2. A future signed-off run should archive:
