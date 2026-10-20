@@ -22,7 +22,8 @@ Directed terminal tests:
 An actual simulator transcript, not this contract file, is the execution
 evidence for a particular commit.
 
-Verified on GitHub Actions run 39377134405 with Verilator 5.020:
+Verified on GitHub Actions run 39386356814 with Verilator 5.020:
+  UVM_SOURCE_SYNTAX_PASS units=9 parser=pyslang-12.0.0
   TEST_PASS name=smoke cycles=1666 retired=248 cause=3
   TEST_PASS name=illegal cycles=6 retired=0 cause=2
   TEST_PASS name=instr_misaligned cycles=6 retired=0 cause=0
