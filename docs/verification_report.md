@@ -20,12 +20,14 @@ flows.
 ### Simulator-dependent evidence
 
 The GitHub Actions workflow installs Verilator and executes `make regress`.
-Public [run 39377134405](https://github.com/ashishkommineni/rv32i-core-from-scratch/actions/runs/39377134405)
+Public [run 39386356814](https://github.com/ashishkommineni/rv32i-core-from-scratch/actions/runs/39386356814)
 completed successfully on 2026-10-20 with Verilator 5.020. It checked the
 generated reference data, elaborated the bound assertions, ran the complete
 smoke signature, and ran all eight terminal cases.
 
 ```text
+STRUCTURE_PASS files=28 program_words=261 coverage_tags=39
+UVM_SOURCE_SYNTAX_PASS units=9 parser=pyslang-12.0.0
 TEST_PASS name=smoke cycles=1666 retired=248 cause=3
 TEST_PASS name=illegal cycles=6 retired=0 cause=2
 TEST_PASS name=instr_misaligned cycles=6 retired=0 cause=0
@@ -37,6 +39,8 @@ TEST_PASS name=load_access_fault cycles=12 retired=0 cause=5
 TEST_PASS name=store_access_fault cycles=12 retired=0 cause=7
 ```
 
+The lint and regression transcript contained zero Verilator warnings and zero
+errors. The parser result proves source syntax only; it is not an Xcelium run.
 The cycle and retirement counts are captured evidence for this generated image
 and memory-latency model; they are not fixed microarchitectural guarantees.
 
