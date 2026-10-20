@@ -1,0 +1,22 @@
+Reference model:
+  GENERATE_PASS words=261 coverage=39
+  Ran 4 tests
+  OK
+
+Portable RTL smoke (cycle and retirement counts may vary only if the memory
+latency model or program changes):
+  TEST_PASS name=smoke cycles=<value> retired=<value> cause=3
+
+Directed terminal tests:
+  TEST_PASS name=illegal cycles=<value> retired=<value> cause=2
+  TEST_PASS name=instr_misaligned cycles=<value> retired=<value> cause=0
+  TEST_PASS name=load_misaligned cycles=<value> retired=<value> cause=4
+  TEST_PASS name=store_misaligned cycles=<value> retired=<value> cause=6
+  TEST_PASS name=ecall cycles=<value> retired=<value> cause=11
+  TEST_PASS name=imem_access_fault cycles=<value> retired=<value> cause=1
+  TEST_PASS name=load_access_fault cycles=<value> retired=<value> cause=5
+  TEST_PASS name=store_access_fault cycles=<value> retired=<value> cause=7
+
+An actual simulator transcript, not this contract file, is the execution
+evidence for a particular commit.
+
