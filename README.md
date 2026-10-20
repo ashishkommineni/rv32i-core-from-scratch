@@ -118,10 +118,12 @@ the terminal wait sequence a stimulus generator.
 
 ## Run the verified portable flow
 
-Requirements: Python 3, GNU Make, and Verilator 5 or later.
+Requirements: Python 3, GNU Make, Verilator 5 or later, and the pinned CI parser
+dependency installed with `python3 -m pip install -r requirements-ci.txt`.
 
 ```bash
 make check      # regenerate vectors, run reference tests, inspect structure
+make uvm-syntax # parse every UVM source unit (syntax only)
 make lint       # SystemVerilog lint plus SVA elaboration
 make regress    # reference checks, ISA smoke test, and eight trap simulations
 make waves      # smoke test with results/rv32i_core.vcd
@@ -131,7 +133,8 @@ The expected successful endings are documented in
 [`results/expected_output.txt`](results/expected_output.txt). The smoke test must
 print `TEST_PASS name=smoke`; each directed fault must print its own `TEST_PASS`
 with the expected cause. A GitHub Actions job runs the same portable regression
-on every push and pull request.
+plus a pinned `pyslang` UVM syntax gate on every push and pull request. The
+syntax gate does not replace Xcelium elaboration or execution.
 
 For Cadence Xcelium with UVM 1.2:
 

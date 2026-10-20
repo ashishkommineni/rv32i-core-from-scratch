@@ -18,7 +18,8 @@ REQUIRED = [
     "docs/microarchitecture.md", "docs/verification_plan.md",
     "docs/verification_report.md", "docs/interview_guide.md",
     "assets/architecture.svg", "assets/waveform.svg",
-    "results/expected_output.txt",
+    "results/expected_output.txt", "requirements-ci.txt",
+    "scripts/uvm_syntax_check.py",
 ]
 
 missing = [path for path in REQUIRED if not (ROOT / path).is_file()]

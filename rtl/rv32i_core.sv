@@ -130,8 +130,8 @@ module rv32i_core #(
     logic [7:0] byte_value;
     logic [15:0] half_value;
     begin
-      byte_value = word >> (8 * offset);
-      half_value = word >> (16 * offset[1]);
+      byte_value = word[offset*8 +: 8];
+      half_value = offset[1] ? word[31:16] : word[15:0];
       unique case (size)
         3'b000: load_result = {{24{byte_value[7]}}, byte_value};
         3'b001: load_result = {{16{half_value[15]}}, half_value};

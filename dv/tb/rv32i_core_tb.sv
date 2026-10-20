@@ -36,6 +36,8 @@ module rv32i_core_tb;
 
   logic imem_pending;
   logic [31:0] imem_pending_addr;
+  logic fetch_seen;
+  logic [31:0] last_fetch_pc, last_fetch_instr;
   integer imem_delay;
   logic dmem_pending;
   logic [31:0] dmem_pending_addr;
@@ -74,7 +76,9 @@ module rv32i_core_tb;
     .retire_valid, .retire_pc, .retire_instr, .retire_rd, .retire_wdata
   );
 
+  /* verilator lint_off BLKSEQ */
   always #5 clk = ~clk;
+  /* verilator lint_on BLKSEQ */
 
   assign imem_req_ready = !imem_pending && !imem_rsp_valid && (bus_cycle[1:0] != 2'b00);
   assign dmem_req_ready = !dmem_pending && !dmem_rsp_valid && (bus_cycle[2:0] != 3'b000);
@@ -87,6 +91,9 @@ module rv32i_core_tb;
       imem_rsp_valid    <= 1'b0;
       imem_rsp_rdata    <= 32'd0;
       imem_rsp_err      <= 1'b0;
+      fetch_seen        <= 1'b0;
+      last_fetch_pc     <= 32'd0;
+      last_fetch_instr  <= 32'd0;
       dmem_pending      <= 1'b0;
       dmem_pending_addr <= 32'd0;
       dmem_pending_wdata <= 32'd0;
@@ -101,6 +108,9 @@ module rv32i_core_tb;
       bus_cycle <= bus_cycle + 1;
 
       if (imem_rsp_valid && imem_rsp_ready) begin
+        fetch_seen      <= !imem_rsp_err;
+        last_fetch_pc   <= imem_pending_addr;
+        last_fetch_instr <= imem_rsp_rdata;
         imem_rsp_valid <= 1'b0;
         imem_rsp_err   <= 1'b0;
       end
@@ -172,6 +182,10 @@ module rv32i_core_tb;
       cov_control  <= '0;
       retired_count <= 0;
     end else if (retire_valid) begin
+      if (!fetch_seen || retire_pc !== last_fetch_pc || retire_instr !== last_fetch_instr)
+        $fatal(1, "retirement trace did not match the completed instruction fetch");
+      if ((retire_rd == 5'd0) && (retire_wdata != 32'd0))
+        $fatal(1, "retirement trace exposed a nonzero x0 write");
       op = retire_instr[6:0];
       f3 = retire_instr[14:12];
       f7 = retire_instr[31:25];
@@ -228,7 +242,7 @@ module rv32i_core_tb;
           endcase
         end
         OPCODE_STORE: begin
-          if (f3 <= 3'h2) cov_store[f3] <= 1'b1;
+          if (f3 <= 3'h2) cov_store[f3[1:0]] <= 1'b1;
         end
         OPCODE_LUI:      cov_control[0] <= 1'b1;
         OPCODE_AUIPC:    cov_control[1] <= 1'b1;
@@ -275,7 +289,7 @@ module rv32i_core_tb;
     end
 
     repeat (5) @(posedge clk);
-    rst_n <= 1'b1;
+    rst_n = 1'b1;
 
     while (!halted && !trap_valid && (cycles < MAX_CYCLES)) begin
       @(posedge clk);
